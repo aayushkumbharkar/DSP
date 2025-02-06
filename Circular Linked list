@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int data;
+    struct node* next;
+};
+
+struct node* addbig(struct node* tail, int data){
+    struct node* ptr = malloc(sizeof(struct node));
+    ptr->data = data;
+    ptr->next = tail->next;
+    tail->next = ptr;
+}  
+
+struct node* addend(struct node* tail, int data){
+    struct node* ptr2 = tail;
+    struct node* ptr = malloc(sizeof(struct node));
+    ptr->data = data;
+    ptr->next = tail->next;
+    tail->next = ptr;
+    ptr2 = ptr;
+    return ptr2;
+}
+
+void disply(struct node* tail){
+    struct node* ptr = tail->next;
+    printf("\n");
+    do {
+        printf(" %d", ptr->data);
+        ptr = ptr->next;
+    } while (ptr != tail->next);
+}
+
+struct node* addmid(struct node* tail, int pos, int data){
+    struct node* ptr2 = tail;
+    while (pos != 1){
+        ptr2 = ptr2->next;
+        pos--;
+    }
+    struct node* ptr = malloc(sizeof(struct node));
+    ptr->data = data;
+    ptr->next = ptr2->next;
+    ptr2->next = ptr;
+}
+
+struct node* delete(struct node* tail, int data){
+    struct node* ptr = tail->next;
+    struct node* prev = tail;
+    if (ptr->data == data) {
+        if (ptr == tail) {
+            tail = tail->next;
+        }
+        prev->next = ptr->next;
+        free(ptr);
+        return tail;
+    }
+    while (ptr->next != tail->next) {
+        if (ptr->data == data) {
+            prev->next = ptr->next;
+            free(ptr);
+            return tail;
+        }
+        prev = ptr;
+        ptr = ptr->next;
+    }
+    return tail;
+}
+
+int main(){
+    struct node* tail = malloc(sizeof(struct node));
+    tail->data = 70;
+    tail->next = tail;
+
+    tail = addend(tail, 30);
+    disply(tail);
+    tail = addend(tail, 33);
+    disply(tail);
+    tail = addend(tail, 34);
+    disply(tail);
+    addbig(tail, 90);
+    disply(tail);
+    addmid(tail, 3, 99);
+    disply(tail);
+    tail = delete(tail, 99);
+    disply(tail);
+}
