@@ -1,0 +1,142 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node* next;
+    struct node* prev;
+};
+
+struct node* cr() {
+    return NULL;
+}
+
+struct node* insBeg(struct node* head, int data) {
+    struct node* new_node = malloc(sizeof(struct node));
+    new_node->data = data;
+    new_node->next = head;
+    new_node->prev = NULL;
+
+    if (head != NULL) {
+        head->prev = new_node;
+    }
+    head = new_node;
+    return head;
+}
+
+struct node* insEnd(struct node* head, int data) {
+    struct node* new_node = malloc(sizeof(struct node));
+    struct node* temp = head;
+    new_node->data = data;
+    new_node->next = NULL;
+
+    // if (head == NULL) {
+    //     new_node->prev = NULL;
+    //     head = new_node;
+    //     return head;
+    // }
+
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+
+    temp->next = new_node;
+    new_node->prev = temp;
+    return head;
+}
+
+struct node* insPos(struct node* head, int pos, int data) {
+    struct node* new_node = malloc(sizeof(struct node));
+    struct node* temp = head;
+    new_node->data = data;
+
+    // if (pos == 1) {
+    //     new_node->next = head;
+    //     new_node->prev = NULL;
+    //     if (head != NULL) {
+    //         head->prev = new_node;
+    //     }
+    //     head = new_node;
+    //     return head;
+    // }
+
+    // for (int i = 1; temp != NULL && i < pos - 1; i++) {
+    //     temp = temp->next;
+    // }
+
+    // if (temp == NULL) {
+    //     printf("Position out of range\n");
+    //     return head;
+    // }
+
+    new_node->next = temp->next;
+    new_node->prev = temp;
+
+    if (temp->next != NULL) {
+        temp->next->prev = new_node;
+    }
+    temp->next = new_node;
+    return head;
+}
+
+struct node* del(struct node* head, int data) {
+    struct node* temp = head;
+
+    if (head != NULL && head->data == data) {
+        head = head->next;
+        if (head != NULL) {
+            head->prev = NULL;
+        }
+        free(temp);
+        return head;
+    }
+
+    // while (temp != NULL && temp->data != data) {
+    //     temp = temp->next;
+    // }
+
+    // if (temp == NULL) return head;
+
+    // if (temp->next != NULL) {
+    //     temp->next->prev = temp->prev;
+    // }
+
+    // if (temp->prev != NULL) {
+    //     temp->prev->next = temp->next;
+    // }
+
+    // free(temp);
+    // return head;
+}
+
+void trav(struct node* head) {
+    struct node* temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+
+
+int main() {
+    struct node* head = cr();
+    
+    head = insBeg(head, 10);
+    head = insBeg(head, 20);
+    head = insEnd(head, 30);
+    head = insPos(head, 2, 25);
+
+    printf("List after insertions : ");
+    trav(head);
+
+    head = del(head, 20);
+
+    printf("List after deletion : ");
+    trav(head);
+
+   
+
+    return 0;
+}
