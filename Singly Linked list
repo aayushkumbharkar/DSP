@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node* next;
+};
+
+struct node* create() {
+    return NULL;
+}
+
+struct node* insertAtBeginning(struct node* head, int data) {
+    struct node* new_node = malloc(sizeof(struct node));
+    new_node->data = data;
+    new_node->next = head;
+    head = new_node;
+    return head;
+}
+
+struct node* insertAtEnd(struct node* head, int data) {
+    struct node* new_node = malloc(sizeof(struct node));
+    struct node* temp = head;
+    new_node->data = data;
+    new_node->next = NULL;
+
+    // if (head == NULL) {
+    //     head = new_node;
+    //     return head;
+    // }
+
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = new_node;
+    return head;
+}
+
+struct node* insertAtPosition(struct node* head, int pos, int data) {
+    struct node* new_node = malloc(sizeof(struct node));
+    struct node* temp = head;
+    new_node->data = data;
+
+    // if (pos == 1) {
+    //     new_node->next = head;
+    //     head = new_node;
+    //     return head;
+    // }
+
+    // for (int i = 1; temp != NULL && i < pos - 1; i++) {
+    //     temp = temp->next;
+    // }
+
+    // if (temp == NULL) {
+    //     printf("Position out of range\n");
+    //     return head;
+    // }
+
+    new_node->next = temp->next;
+    temp->next = new_node;
+    return head;
+}
+
+struct node* delete(struct node* head, int data) {
+    struct node* temp = head;
+    struct node* prev = NULL;
+
+    if (temp != NULL && temp->data == data) {
+        head = temp->next;
+        free(temp);
+        return head;
+    }
+}
+
+//     while (temp != NULL && temp->data != data) {
+//         prev = temp;
+//         temp = temp->next;
+//     }
+
+//     if (temp == NULL) return head;
+
+//     prev->next = temp->next;
+//     free(temp);
+//     return head;
+// }
+
+void traverse(struct node* head) {
+    struct node* temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    struct node* head = create();
+    
+    head = insertAtBeginning(head, 10);
+    head = insertAtBeginning(head, 20);
+    head = insertAtEnd(head, 30);
+    head = insertAtPosition(head, 2, 25);
+    
+    printf("List after insertions: ");
+    traverse(head);
+
+    head = delete(head, 20);
+
+    printf("List after deletion: ");
+    traverse(head);
+
+    return 0;
+}
