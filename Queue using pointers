@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+#define SIZE 10
+void enQueue(int);
+void deQueue();
+void display();
+
+int *queue,front=-1,rear=-1;
+
+void main()
+{
+    int value,choice;
+    queue=(int*)malloc(SIZE*sizeof(int));
+    while(choice != 4)
+    {
+        printf("\n1.Insertion\n2.Deletion\n3.Display\n4.Exit");
+        printf("Enter your choice:");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+            printf("Enter your value:");
+            scanf("%d",&value);
+            enQueue(value);
+            break;
+            case 2:
+            deQueue();
+            break;
+            case 3:
+            display();
+            break;
+            case 4:
+            exit(0);
+            default:printf("wrong choice");
+            
+        }
+        
+            
+        }
+    }
+    void enQueue(int value) {
+        if (rear==SIZE-1) {
+        printf("Overflow");
+    }else
+    {
+        if(rear==-1)
+        rear=0;
+        rear++;
+    queue[rear]=value;
+}
+}
+void deQueue() {
+    if (front==rear)
+    {
+        printf("Underflow");
+    }
+    else {
+        printf("Deleted\n",queue[front]);
+        front++;
+    }
+}
+void display() {
+if(rear==-1)
+{
+            printf("Underflow");
+}
+else
+for(int i=front;i<=rear;i++){
+    printf("%d\t",queue[i]);
+}
+}
